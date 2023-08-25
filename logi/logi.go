@@ -10,10 +10,10 @@ type Logi interface {
 	Errorf(err error, format string, ps ...any)
 }
 
-var LogDebug Logi = None
+var Debug Logi = None
 
-var LogInfo Logi = Stdlog
+var Info Logi = Stdlog
 
-var LogWarn Logi = Stdlog
+var Warn Logi = Stdlog
 
-var LogError Logi = Stdlog
+var Error Logi = Stdlog
