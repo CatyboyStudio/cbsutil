@@ -1,15 +1,21 @@
 package valconv
 
-type ValueMapStringAny struct {
-	Value map[string]any
+type ValueMapStringAny = ValueMapStringT[map[string]any, any]
+
+type ValueMapStringT[S ~map[string]T, T any] struct {
+	Value S
 	Err   error
 }
 
 func MapStringAny(v map[string]any) ValueMapStringAny {
-	return ValueMapStringAny{v, nil}
+	return MapStringT(v)
 }
 
-func (o ValueMapStringAny) Get(n string) ValueAny {
+func MapStringT[S ~map[string]T, T any](v S) ValueMapStringT[S, T] {
+	return ValueMapStringT[S, T]{v, nil}
+}
+
+func (o ValueMapStringT[S, T]) Get(n string) ValueAny {
 	if o.Err != nil {
 		return ValueAny{nil, o.Err}
 	}
@@ -21,18 +27,30 @@ func (o ValueMapStringAny) Get(n string) ValueAny {
 	return Any(nil)
 }
 
-func (o ValueMapStringAny) Set(n string, value any) error {
+func (o ValueMapStringT[S, T]) GetT(n string, def T) T {
+	if o.Err != nil {
+		return def
+	}
+	if o.Value != nil {
+		if v, ok := o.Value[n]; ok {
+			return v
+		}
+	}
+	return def
+}
+
+func (o ValueMapStringT[S, T]) Set(n string, value T) error {
 	if o.Err == nil {
 		return o.Err
 	}
 	if o.Value == nil {
-		o.Value = make(map[string]any)
+		o.Value = make(S)
 	}
 	o.Value[n] = value
 	return nil
 }
 
-func (o ValueMapStringAny) Delete(n string) error {
+func (o ValueMapStringT[S, T]) Delete(n string) error {
 	if o.Err != nil {
 		return o.Err
 	}

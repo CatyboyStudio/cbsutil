@@ -1,19 +1,27 @@
 package valconv
 
-type ValueSliceAny struct {
-	Value []any
+import "slices"
+
+type ValueSliceAny = ValueSliceT[[]any, any]
+
+func SliceAny(v []any) ValueSliceAny {
+	return SliceT(v)
+}
+
+type ValueSliceT[S ~[]T, T any] struct {
+	Value S
 	Err   error
 }
 
-func SliceAny(v []any) ValueSliceAny {
-	return ValueSliceAny{v, nil}
+func SliceT[S ~[]T, T any](v S) ValueSliceT[S, T] {
+	return ValueSliceT[S, T]{v, nil}
 }
 
-func (o ValueSliceAny) Len() int {
+func (o ValueSliceT[S, T]) Len() int {
 	return len(o.Value)
 }
 
-func (o ValueSliceAny) Get(idx int) ValueAny {
+func (o ValueSliceT[S, T]) Get(idx int) ValueAny {
 	if o.Err != nil {
 		return ValueAny{nil, o.Err}
 	}
@@ -25,7 +33,7 @@ func (o ValueSliceAny) Get(idx int) ValueAny {
 	}
 }
 
-func (o ValueSliceAny) Set(idx int, value any) error {
+func (o ValueSliceT[S, T]) Set(idx int, value T) error {
 	if o.Err != nil {
 		return o.Err
 	}
@@ -37,7 +45,7 @@ func (o ValueSliceAny) Set(idx int, value any) error {
 	}
 }
 
-func (o ValueSliceAny) Append(value any) error {
+func (o *ValueSliceT[S, T]) Append(value T) error {
 	if o.Err != nil {
 		return o.Err
 	}
@@ -45,26 +53,25 @@ func (o ValueSliceAny) Append(value any) error {
 	return nil
 }
 
-func (o ValueSliceAny) RemoveAt(index int) error {
+func (o *ValueSliceT[S, T]) RemoveAt(index int) error {
 	if o.Err != nil {
 		return o.Err
 	}
 	if index >= 0 && index < len(o.Value) {
-		o.Value = append(o.Value[:index], o.Value[index+1:]...)
+		slices.Delete(o.Value, index, index+1)
 		return nil
 	} else {
 		return ErrOutOfRange(index, len(o.Value))
 	}
 }
 
-func (o ValueSliceAny) RemoveAtClone(index int) error {
+func (o *ValueSliceT[S, T]) RemoveAtClone(index int) error {
 	if o.Err != nil {
 		return o.Err
 	}
 	if index >= 0 && index < len(o.Value) {
-		tmp := make([]any, len(o.Value)-1)
-		copy(tmp, o.Value[:index])
-		copy(tmp[index:], o.Value[index+1:])
+		tmp := slices.Clone(o.Value)
+		slices.Delete(tmp, index, index+1)
 		o.Value = tmp
 		return nil
 	} else {

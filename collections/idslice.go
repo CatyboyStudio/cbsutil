@@ -1,5 +1,7 @@
 package collections
 
+import "slices"
+
 type IdSlice struct {
 	id   int
 	Data []any
@@ -13,14 +15,11 @@ func (o *IdSlice) Add(v any) int {
 	return o.id
 }
 
-func (o *IdSlice) Remove(id int) {
+func (o IdSlice) Remove(id int) {
 	for i, v := range o.ids {
 		if v == id {
-			copy(o.Data[i:], o.Data[i+1:])
-			o.Data[len(o.Data)] = nil
-			o.Data = o.Data[:len(o.Data)-1]
-			copy(o.ids[i:], o.ids[i+1:])
-			o.ids = o.ids[:len(o.ids)-1]
+			slices.Delete(o.Data, i, i+1)
+			slices.Delete(o.ids, i, i+1)
 			break
 		}
 	}

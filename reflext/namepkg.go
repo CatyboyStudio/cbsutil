@@ -25,11 +25,11 @@ func (o NameWithPkg) IsNil() bool {
 	return o.PKG == "" && o.Name == ""
 }
 
-func (this NameWithPkg) String() string {
-	if this.PKG == "" {
-		return this.Name
+func (o NameWithPkg) String() string {
+	if o.PKG == "" {
+		return o.Name
 	}
-	return fmt.Sprintf("%s.%s", this.PKG, this.Name)
+	return fmt.Sprintf("%s.%s", o.PKG, o.Name)
 }
 
 func TypeFullname(typ reflect.Type) string {
