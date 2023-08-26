@@ -33,6 +33,18 @@ func (o ValueSliceT[S, T]) Get(idx int) ValueAny {
 	}
 }
 
+func (o ValueSliceT[S, T]) GetData(idx int, def T) T {
+	if o.Err != nil {
+		return def
+	}
+	if idx >= 0 && idx < len(o.Value) {
+		v := o.Value[idx]
+		return v
+	} else {
+		return def
+	}
+}
+
 func (o ValueSliceT[S, T]) Set(idx int, value T) error {
 	if o.Err != nil {
 		return o.Err

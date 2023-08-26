@@ -27,7 +27,7 @@ func (o ValueMapStringT[S, T]) Get(n string) ValueAny {
 	return Any(nil)
 }
 
-func (o ValueMapStringT[S, T]) GetT(n string, def T) T {
+func (o ValueMapStringT[S, T]) GetData(n string, def T) T {
 	if o.Err != nil {
 		return def
 	}

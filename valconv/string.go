@@ -65,3 +65,103 @@ func AnyToString(v any) string {
 	}
 	return str
 }
+
+func (o ValueString) ToBool() ValueBool {
+	if o.Err != nil {
+		return ValueBool{false, o.Err}
+	}
+	v, err := strconv.ParseBool(o.Value)
+	return ValueBool{v, err}
+}
+
+func (o ValueString) ToInt() ValueInt {
+	if o.Err != nil {
+		return ValueInt{0, o.Err}
+	}
+	v, err := strconv.ParseInt(o.Value, 10, 0)
+	return ValueInt{int(v), err}
+}
+
+func (o ValueString) ToInt8() ValueInt8 {
+	if o.Err != nil {
+		return ValueInt8{0, o.Err}
+	}
+	v, err := strconv.ParseInt(o.Value, 10, 8)
+	return ValueInt8{int8(v), err}
+}
+
+func (o ValueString) ToInt16() ValueInt16 {
+	if o.Err != nil {
+		return ValueInt16{0, o.Err}
+	}
+	v, err := strconv.ParseInt(o.Value, 10, 16)
+	return ValueInt16{int16(v), err}
+}
+
+func (o ValueString) ToInt32() ValueInt32 {
+	if o.Err != nil {
+		return ValueInt32{0, o.Err}
+	}
+	v, err := strconv.ParseInt(o.Value, 10, 32)
+	return ValueInt32{int32(v), err}
+}
+
+func (o ValueString) ToInt64() ValueInt64 {
+	if o.Err != nil {
+		return ValueInt64{0, o.Err}
+	}
+	v, err := strconv.ParseInt(o.Value, 10, 64)
+	return ValueInt64{int64(v), err}
+}
+
+func (o ValueString) ToUInt() ValueUInt {
+	if o.Err != nil {
+		return ValueUInt{0, o.Err}
+	}
+	v, err := strconv.ParseUint(o.Value, 10, 0)
+	return ValueUInt{uint(v), err}
+}
+
+func (o ValueString) ToUInt8() ValueUInt8 {
+	if o.Err != nil {
+		return ValueUInt8{0, o.Err}
+	}
+	v, err := strconv.ParseUint(o.Value, 10, 8)
+	return ValueUInt8{uint8(v), err}
+}
+
+func (o ValueString) ToUInt16() ValueUInt16 {
+	if o.Err != nil {
+		return ValueUInt16{0, o.Err}
+	}
+	v, err := strconv.ParseUint(o.Value, 10, 16)
+	return ValueUInt16{uint16(v), err}
+}
+func (o ValueString) ToUInt32() ValueUInt32 {
+	if o.Err != nil {
+		return ValueUInt32{0, o.Err}
+	}
+	v, err := strconv.ParseUint(o.Value, 10, 32)
+	return ValueUInt32{uint32(v), err}
+}
+func (o ValueString) ToUInt64() ValueUInt64 {
+	if o.Err != nil {
+		return ValueUInt64{0, o.Err}
+	}
+	v, err := strconv.ParseUint(o.Value, 10, 64)
+	return ValueUInt64{uint64(v), err}
+}
+func (o ValueString) ToFloat32() ValueFloat32 {
+	if o.Err != nil {
+		return ValueFloat32{0, o.Err}
+	}
+	v, err := strconv.ParseFloat(o.Value, 32)
+	return ValueFloat32{float32(v), err}
+}
+func (o ValueString) ToFloat64() ValueFloat64 {
+	if o.Err != nil {
+		return ValueFloat64{0, o.Err}
+	}
+	v, err := strconv.ParseFloat(o.Value, 64)
+	return ValueFloat64{float64(v), err}
+}
