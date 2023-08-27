@@ -8,6 +8,10 @@ type IdSlice[T any] struct {
 	ids  []int
 }
 
+func (o *IdSlice[T]) Count() int {
+	return len(o.Data)
+}
+
 func (o *IdSlice[T]) Add(v T) int {
 	o.id += 1
 	o.Data = append(o.Data, v)
@@ -25,4 +29,9 @@ func (o *IdSlice[T]) Remove(id int) {
 			break
 		}
 	}
+}
+
+func (o *IdSlice[T]) Clear() {
+	clear(o.Data)
+	clear(o.ids)
 }
