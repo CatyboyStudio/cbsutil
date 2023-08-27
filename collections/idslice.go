@@ -2,23 +2,24 @@ package collections
 
 import "slices"
 
-type IdSlice struct {
+type IdSlice[T any] struct {
 	id   int
-	Data []any
+	Data []T
 	ids  []int
 }
 
-func (o *IdSlice) Add(v any) int {
+func (o *IdSlice[T]) Add(v T) int {
 	o.id += 1
 	o.Data = append(o.Data, v)
 	o.ids = append(o.ids, o.id)
 	return o.id
 }
 
-func (o *IdSlice) Remove(id int) {
+func (o *IdSlice[T]) Remove(id int) {
 	for i, v := range o.ids {
 		if v == id {
-			o.Data[i] = nil
+			var def T
+			o.Data[i] = def
 			o.Data = slices.Delete(o.Data, i, i+1)
 			o.ids = slices.Delete(o.ids, i, i+1)
 			break
