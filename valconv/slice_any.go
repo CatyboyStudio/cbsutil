@@ -70,7 +70,9 @@ func (o *ValueSliceT[S, T]) RemoveAt(index int) error {
 		return o.Err
 	}
 	if index >= 0 && index < len(o.Value) {
-		slices.Delete(o.Value, index, index+1)
+		var def T
+		o.Value[index] = def
+		o.Value = slices.Delete(o.Value, index, index+1)
 		return nil
 	} else {
 		return ErrOutOfRange(index, len(o.Value))
@@ -83,8 +85,9 @@ func (o *ValueSliceT[S, T]) RemoveAtClone(index int) error {
 	}
 	if index >= 0 && index < len(o.Value) {
 		tmp := slices.Clone(o.Value)
-		slices.Delete(tmp, index, index+1)
-		o.Value = tmp
+		var def T
+		tmp[index] = def
+		o.Value = slices.Delete(tmp, index, index+1)
 		return nil
 	} else {
 		return ErrOutOfRange(index, len(o.Value))
